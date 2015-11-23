@@ -1,0 +1,6 @@
+program first(a,b);
+var x : integer;
+var y : real;
+begin
+x := 3; y := 5.4 
+end.
