@@ -5,14 +5,13 @@
 
 %%
 
-"<="	    {printf("RELOP: %s\n", yytext); yylval.integer=1; return RELOP;}
-">="	    {printf("RELOP: %s\n", yytext); yylval.integer=2; return RELOP;}
-"<>"	    {printf("RELOP: %s\n", yytext); yylval.integer=3; return RELOP;}
-"<"	      {printf("RELOP: %s\n", yytext); yylval.integer=4; return RELOP;}
-">"	      {printf("RELOP: %s\n", yytext); yylval.integer=5; return RELOP;}
-"="	      {printf("RELOP: %s\n", yytext); yylval.integer=6; return RELOP;}
-
+"<="	    {printf("RELOP: %s\n", yylval.integer = 0); return RELOP;}
+">="	    {printf("RELOP: %s\n", yylval.integer = 1); return RELOP;}
+"<>"	    {printf("RELOP: %s\n", yylval.integer = 2); return RELOP;}
 ":="	    {printf("ASSIGNOP: %s\n", yytext); return ASSIGNOP;}
+"<"	      {printf("RELOP: %s\n", yylval.integer = 3); return RELOP;}
+">"	      {printf("RELOP: %s\n", yylval.integer = 4); return RELOP;}
+"="	      {printf("RELOP: %s\n", yylval.integer = 5); return RELOP;}
 ".."	    {printf("SEQUENCE: %s\n", yytext); return SEQUENCE;}
 [+\-]	    {printf("ADDOP: %s\n", yytext); return ADDOP;}
 [*/]	    {printf("MULOP: %s\n", yytext); return MULOP;}

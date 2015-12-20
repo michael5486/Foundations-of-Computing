@@ -10,7 +10,7 @@
 };
 
 %start program
-%token <integer> INT RELOP
+%token <integer> INT
 %token <real> REALNO
 %token <string> ID
 %token RELOP ASSIGNOP SEQUENCE ADDOP MULOP DOT
@@ -247,28 +247,21 @@ statement_list:
 
 statement:
   variable ASSIGNOP expression {
-  if($$=='t') {
 	if (!(($1 == 'r') || ($1 == 'i'))) {
 		printf("Error 3: Type mismatch: cannot assign value to variable of type other than integer or real.\n");
 	} else if ((($1 == 'i') && !($3 == 'i')) || (($1 == 'r') && !($3 == 'r'))) {
 		printf("Error 3: Type mismatch: must assign expression to variable of the same type.\n");
 	}
-  }
 } 
+| if ($$ == 't') { original actions}
 | procedure_statement
 | compound_statement
 | IF expression THEN statement ELSE statement
-{
-	if($2==0) {
-		$4='f';
-		$6='t';
+	if($2 == 0) {$d = 'f'; $6 = 't'; }
+	else { $4 = 't'; $6 = 'f'; 
 	}
-	else {
-		$4='t';
-		$6='f';
-	}
-}
 | WHILE expression DO statement
+| ID ASSIGNOP NUM
 ;
 
 variable:
@@ -428,8 +421,12 @@ expression:
 	$$ = $1;
 }
 | simple_expression RELOP simple_expression {
-	$$ = compare($1,$2,$3);
+	$$ = 'i';
 }
+| {
+	$$ = compare($1, $2, $3);
+}
+| ID RELOP NUM
 ;
 
 simple_expression:

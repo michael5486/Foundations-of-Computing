@@ -29,12 +29,13 @@ SYM* new_symbol(){
   // your code
   SYM* symbol = (SYM*)malloc(sizeof(SYM));
   symbol->next = NULL;
-  symbol -> parameters = NULL;
+  symbol->parameters = NULL;
   return symbol;
 }
 
 /* fill the fields of a symbol struct */
 void set_symbol(SYM* symbol, char *name, char type, char stype, int scope){
+  /* malloc() a new symbol, set its ->next to NULL, and return it */
   symbol->name = (char*)malloc(sizeof(char) * (strlen(name)));
   strcpy(symbol->name, name);
   symbol->type = type;
@@ -85,30 +86,34 @@ void add_symbol(SYM **head, SYM *new_sym) {
 // function 2
 /* print an entire list of symbols */
 void print_symbol_list(SYM *head) {
-  // your code
-  SYM* p;
-  if (!head) {
-    printf("Empty.\n");
+  SYM *curr;
+
+  if (!head)
+  {
+    printf("List is empty.\n");
     return;
   }
-  p = head;
-  while (p) {
-    print_symbol(p);
-    p = p->next;
-    }  
+
+  curr = head;
+
+  while (curr)
+  {
+    print_symbol(curr);
+    curr = curr->next;
+  }
 }
 
 // fucntion 3
 /* apply the hash function to an input string */
 int hasher(char *str){
-  // your code
   char *s;
-  int hash_value=0;
-  for (s = str; *s != '\0'; s++) {
-  // if this is not the end of the string
-    hash_value += *s;
+  int hash_val = 0;
+  for (s = str; *s != '\0'; s++)
+  {
+    hash_val += *s;    
   }
-  return  hash_value %  50;
+  return hash_val % 50;
+
 }
 
 /* initialize the hash table */
@@ -129,36 +134,41 @@ void init_table(SYM *hash[])
 // function 4
 /* returns 1 if there is a symbol with the same name and value and scope */
 int check_find_sym(SYM *hash[], SYM *sym) {
-  // your code
   SYM* bucket = hash[hasher(sym->name)];
-  if (!bucket) return 0;
+
+  if (!bucket) {
+    return 0;
+  }
+
   while (bucket) {
-    if(strcmp(bucket->name, sym->name) == 0 && bucket->scope == sym->scope) 
-    {
-    // if we found it
-    return 1;
+    // If found
+    if (strcmp(bucket->name, sym->name) == 0 && (bucket->scope == sym->scope)) {
+      return 1;
     }
-    // iterate bucket
+    // Iterate bucket
     bucket = bucket->next;
-  }   
-  return 0;
+  }
 }
 
 // function 5
 /* if there is a symbol with the same value and scope, returns it, otherwise return NULL */
 SYM* get_sym(SYM *hash[], SYM *sym) {
-  // your code
+
   SYM* bucket = hash[hasher(sym->name)];
-  // if there is no such symbol
-  if (!bucket) return NULL;
+
+  // If there is no such symbol
+  if (!bucket) {
+    return NULL;
+  }
+
   while (bucket) {
-    if(strcmp(bucket->name, sym->name) == 0 && bucket->scope == sym->scope) 
-    { 
-    return bucket;
+    if (strcmp(bucket->name, sym->name) && (bucket->scope == sym->scope)) {
+      return bucket;
+    }
+    bucket = bucket->next;
   }
-  bucket = bucket->next;
-  }
-  return NULL;
+
+
 }
 
 /* go through the hash table and remove any variable with a certain scope */
@@ -199,15 +209,13 @@ int empty_table(SYM* hash[], int scope) {
 // function 6
 /* add a symbol to the hash table, returns 1 if there is no conflict, otherwise return 0 */
 int add_symbol_to_hash(SYM *hash[], SYM *sym) {
-  //your code
-  // if this symbol was never been declared before
-  if(check_find_sym(hash, sym))
-  {
-    printf("Error: Found some symbol with same name and scope. \n");
+  
+  if (check_find_sym(hash, sym)) {
+    printf("Error: found some symbol with same name and scope.\n");
     return 0;
   }
-  
-  //add symbol to the hash table with proper entry 
+
+  // Add symbol to the hash table with proper entry
   add_symbol(&hash[hasher(sym->name)], sym);
   return 1;
 }
@@ -216,14 +224,12 @@ int add_symbol_to_hash(SYM *hash[], SYM *sym) {
 /* print the entire hash table */
 void print_hash(SYM *hash[]) {
   /* Print out every list in the table */
-  // your code
   int i;
-  for (i = 0; i < 50; i++) 
-  {
-  printf("Bucket %d\n", i);
-  print_symbol_list(hash[i]);
+
+  for (i = 0; i < 50; i++) {
+    printf("Bucket %d\n", i);
+    print_symbol_list(hash[i]);
   }
-  
 }
 
 /* STACK-RELATED FUNCTONS */
@@ -259,21 +265,27 @@ SYM* pop(SYM **head) {
   return s;
 }
 
-int compare(double a, int relop, double b) {
-  switch(relop) {
-    case 1:
-      return a<=b;
-    case 2:
-      return a>=b;
-    case 3:
-      return a!=b;
-    case 4:
-      return a<b;
-    case 5:
-      return a>b;
-    case 6:
-      return a==b;
-  }
-  return 0;
-}
+int compare (double a, int relop, double b) {
+  switch relop
+    case 0: //<=
 
+    break;
+    case 1: //>=
+
+    break;
+    case 2: //<>
+
+    break;
+    case 3: //<
+
+    break;
+    case 4: //>
+
+    break;
+
+    case 5: //=
+
+    break;
+
+
+}
